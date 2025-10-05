@@ -54,6 +54,10 @@ public class Knight extends Piece{
 
         return list;
     }
+    @Override
+    public int getID() {
+        return 2;
+    }
     public boolean getColour() {
         return colour;
     }

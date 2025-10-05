@@ -32,7 +32,10 @@ public class Queen extends Piece{
         moves.addAll(getStraightMoves(currentPiecePosition));
         return moves;
     }
-
+    @Override
+    public int getID() {
+        return 4;
+    }
     public boolean getColour() {
         return colour;
     }

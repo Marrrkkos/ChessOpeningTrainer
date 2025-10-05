@@ -31,6 +31,10 @@ public class Rook extends Piece{
     public List<List<Position>> getBasicPieceMoves(Position currentPiecePosition) {
         return getStraightMoves(currentPiecePosition);
     }
+    @Override
+    public int getID() {
+        return 1;
+    }
     public boolean getColour() {
         return colour;
     }

@@ -41,11 +41,16 @@ public class King extends Piece{
                 pos = new Position(posX + arr[j], posY + arr[i]);
                 if(isInBounds(pos)&& !(i==0 && j==0) ) {                // Make sure 0 0(own king position) is not in possible Moves
                     moves.add(pos);
+                    list.add(moves);
+                    moves = new ArrayList<>();
                 }
             }
         }
-        list.add(moves);
         return list;
+    }
+    @Override
+    public int getID() {
+        return 5;
     }
     public boolean getColour() {
         return colour;

@@ -64,6 +64,12 @@ public class Pawn extends Piece{
         list.add(moves);
         return list;
     }
+
+    @Override
+    public int getID() {
+        return 0;
+    }
+
     public boolean getColour() {
         return colour;
     }

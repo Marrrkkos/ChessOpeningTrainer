@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
+    public abstract int getID();
     public abstract boolean getColour();
     public abstract Image getImage();
     public abstract List<List<Position>> getBasicPieceMoves(Position currentPiecePosition);
