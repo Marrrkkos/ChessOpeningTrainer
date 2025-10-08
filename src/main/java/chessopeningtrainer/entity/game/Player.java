@@ -7,10 +7,15 @@ package chessopeningtrainer.entity.game;
  */
 public class Player {
     boolean colour;
+
     /**
      * @param colour the player Colour (White or Black)
      */
     public Player(boolean colour) {
         this.colour = colour;
+    }
+
+    public boolean getColour() {
+        return colour;
     }
 }

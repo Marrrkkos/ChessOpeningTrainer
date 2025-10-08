@@ -13,18 +13,20 @@ public class Game {
     ArrayList<Turn> currentTurnsSave;
     int turnCounter;
     private Board board;
+    int currentPlayer;
     /**
      *
      * @param turns an Arraylist of Turns containing the moves made throughout the game
      * @param currentTurnsSave  This is for Forward/Backward functions, to make life easier for the user. Only
      *                          changes to turns, when new Move out of the current Line is done
      */
-    public Game(ArrayList<Turn> turns, ArrayList<Turn> currentTurnsSave) {
+    public Game(ArrayList<Turn> turns, ArrayList<Turn> currentTurnsSave, Player[] player) {
         this.turns = turns;
-        this.player = new Player[1];
+        this.player = player;
         this.currentTurnsSave = currentTurnsSave;
         this.turnCounter = 0;
         this.board = new Board();
+        currentPlayer = 0;
     }
 
     public int getTurnCounter() {
@@ -42,7 +44,13 @@ public class Game {
     public Player[] getPlayer() {
         return player;
     }
-
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+    public void nextPlayer() {
+        System.out.println(currentPlayer);
+        this.currentPlayer = (1 + currentPlayer) % 2;
+    }
     public ArrayList<Turn> getCurrentTurnsSave() {
         return currentTurnsSave;
     }

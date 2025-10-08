@@ -5,6 +5,7 @@ import chessopeningtrainer.entity.board.Board;
 import chessopeningtrainer.entity.board.Field;
 import chessopeningtrainer.entity.board.Position;
 import chessopeningtrainer.entity.game.Game;
+import chessopeningtrainer.entity.game.Player;
 import chessopeningtrainer.entity.game.Turn;
 import chessopeningtrainer.entity.pieces.*;
 import chessopeningtrainer.view.Refreshable;
@@ -31,7 +32,8 @@ public class GameService extends AbstractRefreshingService{
 
 
     private void initializeGame() {
-        Game game = new Game(new ArrayList<Turn>(), new ArrayList<Turn>());
+        Player[] players = {new Player(true), new Player(false)};
+        Game game = new Game(new ArrayList<Turn>(), new ArrayList<Turn>(), players);
         initializeFields(game.getBoard());
         initializePieces(game.getBoard());
         rootService.currentGame = game;

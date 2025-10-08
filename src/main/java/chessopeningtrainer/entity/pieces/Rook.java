@@ -31,6 +31,16 @@ public class Rook extends Piece{
     public List<List<Position>> getBasicPieceMoves(Position currentPiecePosition) {
         return getStraightMoves(currentPiecePosition);
     }
+
+    @Override
+    public boolean getHasMoved() {
+        return hasMoved;
+    }
+    @Override
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
+
     @Override
     public int getID() {
         return 1;

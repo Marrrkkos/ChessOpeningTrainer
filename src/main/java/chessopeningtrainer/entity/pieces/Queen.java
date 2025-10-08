@@ -32,7 +32,16 @@ public class Queen extends Piece{
         moves.addAll(getStraightMoves(currentPiecePosition));
         return moves;
     }
+
     @Override
+    public boolean getHasMoved() {
+        return false;
+    }
+    @Override
+    public void setHasMoved(boolean hasMoved) {
+    }
+
+        @Override
     public int getID() {
         return 4;
     }

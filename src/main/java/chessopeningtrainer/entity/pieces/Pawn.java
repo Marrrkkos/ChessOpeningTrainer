@@ -35,7 +35,7 @@ public class Pawn extends Piece{
     }
     @Override
     public List<List<Position>> getBasicPieceMoves(Position currentPiecePosition) {
-        List<List<Position>> list = new ArrayList<>();
+        /*List<List<Position>> list = new ArrayList<>();
         List<Position> moves = new ArrayList<>();
         int direction = (this.colour) ? -1 : 1;     // Counts from top right corner. So White is at bottom on line 7-8
 
@@ -61,8 +61,16 @@ public class Pawn extends Piece{
             moves.add(pos2);
         }
 
-        list.add(moves);
-        return list;
+        list.add(moves);*/
+        return new ArrayList<>(); //return list
+    }
+
+    @Override
+    public boolean getHasMoved() {
+        return false;
+    }
+    @Override
+    public void setHasMoved(boolean hasMoved) {
     }
 
     @Override

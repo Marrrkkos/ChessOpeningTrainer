@@ -54,6 +54,15 @@ public class Knight extends Piece{
 
         return list;
     }
+
+    @Override
+    public boolean getHasMoved() {
+        return false;
+    }
+    @Override
+    public void setHasMoved(boolean hasMoved) {
+    }
+
     @Override
     public int getID() {
         return 2;

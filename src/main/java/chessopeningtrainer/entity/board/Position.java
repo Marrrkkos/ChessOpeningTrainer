@@ -4,11 +4,20 @@ public class Position {
 
     int x;
     int y;
+    char z;         // e = enpassant, c = castle,
+
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
+    public Position(char z, int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+    public char getChar() {
+        return z;
+    }
     public int getY() {
         return y;
     }

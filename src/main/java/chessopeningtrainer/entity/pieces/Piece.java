@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
+    public abstract void setHasMoved(boolean hasMoved);
+    public abstract boolean getHasMoved();
     public abstract int getID();
     public abstract boolean getColour();
     public abstract Image getImage();

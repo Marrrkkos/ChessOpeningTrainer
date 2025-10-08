@@ -31,6 +31,15 @@ public class Bishop extends Piece{
     public List<List<Position>> getBasicPieceMoves(Position currentPiecePosition) {
         return getDiagonalMoves(currentPiecePosition);
     }
+
+    @Override
+    public boolean getHasMoved() {
+        return false;
+    }
+    @Override
+    public void setHasMoved(boolean hasMoved) {
+    }
+
     @Override
     public int getID() {
         return 3;
