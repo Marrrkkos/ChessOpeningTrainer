@@ -3,7 +3,6 @@ package chessopeningtrainer.view;
 import chessopeningtrainer.entity.board.Board;
 import chessopeningtrainer.entity.board.Field;
 import chessopeningtrainer.entity.board.Position;
-import chessopeningtrainer.entity.game.Turn;
 import chessopeningtrainer.entity.pieces.Piece;
 import chessopeningtrainer.service.RootService;
 import javafx.fxml.FXML;
@@ -17,7 +16,9 @@ import javafx.scene.shape.Circle;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * the main interface, so the gui of the chessBoard
+ */
 public class MainController implements Refreshable{
     RootService rootService = new RootService();
     @FXML
@@ -117,7 +118,7 @@ public class MainController implements Refreshable{
     @Override
     public void refreshAfterGameStart(Board board) {
         Refreshable.super.refreshAfterGameStart(board);
-        Field[][] field = board.getBoard();
+        Field[][] field = board.getField();
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {       // 0  ;  2
@@ -174,7 +175,7 @@ public class MainController implements Refreshable{
     public void refreshAfterCastle(Position startPos, Position endPos, Piece king, Piece rook, Board board) {
         Refreshable.super.refreshAfterCastle(startPos, endPos, king, rook, board);
 
-        Field[][] field = board.getBoard();
+        Field[][] field = board.getField();
 
         int startX = startPos.getX();
         int startY = startPos.getY();
@@ -219,7 +220,7 @@ public class MainController implements Refreshable{
         int endX = endPos.getX();
         int endY = endPos.getY();
 
-        Field[][] field = board.getBoard();
+        Field[][] field = board.getField();
 
         if(field[endX][endY].getPiece() != null) {
             ImageView pawnImage = new ImageView(field[endX][endY].getPiece().getImage());

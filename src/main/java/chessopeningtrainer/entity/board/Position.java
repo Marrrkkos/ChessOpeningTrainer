@@ -1,15 +1,24 @@
 package chessopeningtrainer.entity.board;
 
+/**
+ * Every Field in {@link Board} has a {@link Position}
+ * It is a helping class, for manage effective Position collection on the Board,
+ * without having to run over all 64 Fields of the board
+ */
 public class Position {
 
     int x;
     int y;
-    char z;         // e = enpassant, c = castle,
+    char z;         // e = enPassant, c = castle,
 
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * @param z you can specify rules for En-Passant: e, Castle: c and Promotion: Q,R,B,K (chess pieces)
+     */
     public Position(char z, int x, int y) {
         this.x = x;
         this.y = y;

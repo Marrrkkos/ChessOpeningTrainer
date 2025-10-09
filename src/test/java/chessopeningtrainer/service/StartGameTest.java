@@ -11,6 +11,6 @@ public class StartGameTest {
         rootService.gameService.startGame();
         assertNotNull(rootService.currentGame);
         assertNotNull(rootService.currentGame.getBoard());
-        assertNotNull(rootService.currentGame.getBoard().getBoard()[0][0].getPiece());
+        assertNotNull(rootService.currentGame.getBoard().getField()[0][0].getPiece());
     }
 }

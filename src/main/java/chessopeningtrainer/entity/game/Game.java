@@ -11,7 +11,6 @@ public class Game {
     ArrayList<Turn> turns;
     Player[] players;
     ArrayList<Turn> currentTurnsSave;
-    int turnCounter;
     private Board board;
     int currentPlayer;
     /**
@@ -24,14 +23,10 @@ public class Game {
         this.turns = turns;
         this.players = players;
         this.currentTurnsSave = currentTurnsSave;
-        this.turnCounter = 0;
         this.board = new Board();
         currentPlayer = 0;
     }
 
-    public int getTurnCounter() {
-        return turnCounter;
-    }
 
     public ArrayList<Turn> getTurns() {
         return turns;
@@ -49,25 +44,6 @@ public class Game {
     }
     public void nextPlayer() {
         this.currentPlayer = (1 + currentPlayer) % players.length;
-    }
-    public ArrayList<Turn> getCurrentTurnsSave() {
-        return currentTurnsSave;
-    }
-
-    public void setTurns(ArrayList<Turn> turns) {
-        this.turns = turns;
-    }
-
-    public void setPlayer(Player[] player) {
-        this.players = player;
-    }
-
-    public void setCurrentTurnsSave(ArrayList<Turn> currentTurnsSave) {
-        this.currentTurnsSave = currentTurnsSave;
-    }
-
-    public void setTurnCounter(int turnCounter) {
-        this.turnCounter = turnCounter;
     }
 
     public void setBoard(Board board) {

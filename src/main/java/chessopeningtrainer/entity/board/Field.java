@@ -3,7 +3,7 @@ package chessopeningtrainer.entity.board;
 import chessopeningtrainer.entity.pieces.Piece;
 
 /**
- * The Board Class contains 8x8=64 of these Fields
+ * {@link Board} contains 8x8=64 of these Fields
  */
 public class Field {
     Piece piece;
@@ -21,8 +21,7 @@ public class Field {
     }
 
     /**
-     * Only the Name of the Fields to initialize the Board
-     * @param name
+     * Only the Name and Position of the Fields to initialize the Board
      */
     public Field(String name, Position position) {
         this.name = name;
@@ -35,10 +34,6 @@ public class Field {
     }
     public void setPiece(Piece piece) {
         this.piece = piece;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Position getPosition() {

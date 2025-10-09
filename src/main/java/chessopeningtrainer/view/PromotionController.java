@@ -6,30 +6,19 @@ import chessopeningtrainer.entity.pieces.Bishop;
 import chessopeningtrainer.entity.pieces.Knight;
 import chessopeningtrainer.entity.pieces.Queen;
 import chessopeningtrainer.entity.pieces.Rook;
-import chessopeningtrainer.service.RootService;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.Objects;
-
+/**
+ *  This class contains the refreshingMethods for a Promotion,
+ *  so its shows all 4 Options and resets it after it's done
+ */
 public class PromotionController implements Refreshable{
-        RootService rootService = new RootService();
 
         boolean inPromotion;
         public PromotionController(boolean inPromotion) {
             this.inPromotion = inPromotion;
         }
-        public String writePromotion(int p){
-            return switch (p) {
-                case 1 -> "=Q";
-                case 2 -> "=R";
-                case 3 -> "=K";
-                case 4 -> "=B";
-                default -> "=Q";
-            };
-        }
-
     @Override
     public void refreshAfterShowPromotion(Position position1, Position position2, Button[][] buttonArray, boolean colour) {
         Refreshable.super.refreshAfterShowPromotion(position1, position2, buttonArray, colour);
@@ -77,8 +66,8 @@ public class PromotionController implements Refreshable{
         int direction = colour ? 1 : -1;
         ImageView pieceImage;
         for (int i = 0; i < 4; i++) {
-            if(board.getBoard()[posX][posY + i * direction].getPiece() != null) {
-                pieceImage = new ImageView(board.getBoard()[posX][posY + i * direction].getPiece().getImage());
+            if(board.getField()[posX][posY + i * direction].getPiece() != null) {
+                pieceImage = new ImageView(board.getField()[posX][posY + i * direction].getPiece().getImage());
                 buttonArray[posX][posY + i * direction].setGraphic(pieceImage);
             }else{
                 buttonArray[posX][posY + i * direction].setGraphic(null);

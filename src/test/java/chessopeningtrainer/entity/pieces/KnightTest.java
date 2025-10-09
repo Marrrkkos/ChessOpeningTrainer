@@ -20,13 +20,13 @@ class KnightTest {
     }
     @Test
     void getBasicKnightMoves() {
-        Field field = board.getBoard()[3][3];
+        Field field = board.getField()[3][3];
         field.setPiece(new Knight(true));
         List<List<Position>> possibleMoves = field.getPiece().getBasicPieceMoves(new Position(3,3));
         assertEquals(8, possibleMoves.size());  // 8 possible Moves in the middle
         assertEquals(possibleMoves.size(), possibleMoves.stream().mapToInt(List::size).sum());  // has to be the same cause no piece cant be in the way
 
-        Field field1 = board.getBoard()[0][0];  //corner
+        Field field1 = board.getField()[0][0];  //corner
         field1.setPiece(new Knight(true));
         List<List<Position>> possibleMoves1 = field1.getPiece().getBasicPieceMoves(new Position(0,0));
         assertEquals(2, possibleMoves1.size());  // 2 possible Moves in the corner
@@ -37,14 +37,14 @@ class KnightTest {
     private void initializeFields(Board board){
         int k = 8;
         for (int i = 0; i < 8; i++) {
-            board.getBoard()[i][0] = new Field("a" + (k), new Position(i,0));
-            board.getBoard()[i][1] = new Field("b" + (k), new Position(i,1));
-            board.getBoard()[i][2] = new Field("c" + (k), new Position(i,2));
-            board.getBoard()[i][3] = new Field("d" + (k), new Position(i,3));
-            board.getBoard()[i][4] = new Field("e" + (k), new Position(i,4));
-            board.getBoard()[i][5] = new Field("f" + (k), new Position(i,5));
-            board.getBoard()[i][6] = new Field("g" + (k), new Position(i,6));
-            board.getBoard()[i][7] = new Field("h" + (k), new Position(i,7));
+            board.getField()[i][0] = new Field("a" + (k), new Position(i,0));
+            board.getField()[i][1] = new Field("b" + (k), new Position(i,1));
+            board.getField()[i][2] = new Field("c" + (k), new Position(i,2));
+            board.getField()[i][3] = new Field("d" + (k), new Position(i,3));
+            board.getField()[i][4] = new Field("e" + (k), new Position(i,4));
+            board.getField()[i][5] = new Field("f" + (k), new Position(i,5));
+            board.getField()[i][6] = new Field("g" + (k), new Position(i,6));
+            board.getField()[i][7] = new Field("h" + (k), new Position(i,7));
             k--;
         }
     }

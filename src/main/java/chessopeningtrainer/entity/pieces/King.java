@@ -6,7 +6,10 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Represents a King chess piece.
+ * Can move 1 Field in every Direction.
+ */
 public class King extends Piece{
     boolean colour;
     boolean hasMoved;

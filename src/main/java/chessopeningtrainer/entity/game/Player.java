@@ -3,7 +3,6 @@ package chessopeningtrainer.entity.game;
 /**
  * Currently only contains colour of a player
  * This class is for future updates
- *
  */
 public class Player {
     boolean colour;

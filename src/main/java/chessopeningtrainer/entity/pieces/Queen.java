@@ -6,7 +6,10 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Represents a Queen chess piece.
+ * Can move any number of squares diagonally, vertically and horizontal.
+ */
 public class Queen extends Piece{
     boolean colour;
     public Queen(boolean colour){

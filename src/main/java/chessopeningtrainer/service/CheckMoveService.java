@@ -7,18 +7,23 @@ import chessopeningtrainer.entity.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class gives all the possibleMoves from a piece on its current Position.
+ * it filters step by step the moves out, which are not possible, first by pieces which are in the way, then by special Moves {@link SpecialMovesService}, like En Passant
+ * and finally by checks
+ */
 public class CheckMoveService extends AbstractRefreshingService{
-    private RootService rootService;
+    private final RootService rootService;
 
-    public CheckMoveService(RootService rootService) {
+    CheckMoveService(RootService rootService) {
         this.rootService = rootService;
     }
 
-    public List<Position> getFinalPossibleMoves(Position currentPiecePosition){
+    List<Position> getFinalPossibleMoves(Position currentPiecePosition){
 
         Board board = rootService.currentGame.getBoard();
 
-        if(board.getBoard()[currentPiecePosition.getX()][currentPiecePosition.getY()].getPiece() == null) {     // no piece at this position
+        if(board.getField()[currentPiecePosition.getX()][currentPiecePosition.getY()].getPiece() == null) {     // no piece at this position
             return new ArrayList<>();
         }
         List<Position> moves = getBasicMoves(currentPiecePosition);    // Filter by enemy/or own Pieces in the Way
@@ -27,18 +32,13 @@ public class CheckMoveService extends AbstractRefreshingService{
 
     }
 
-    /**
-     * gets you the basic piece moves, filtered from own, or enemy pieces in the way. but it is not filtered from checks.
-     * @param currentPiecePosition  the position of the piece you want the possible moves for
-     * @return  list of possible moves you can play, not filtered from checks
-     */
     private List<Position> getBasicMoves(Position currentPiecePosition){
         List<Position> list = new ArrayList<>();
-        List<List<Position>> possibleMoves = new ArrayList<>();
+        List<List<Position>> possibleMoves;
         Piece currentPiece;
 
         Board board = rootService.currentGame.getBoard();
-            currentPiece = board.getBoard()[currentPiecePosition.getX()][currentPiecePosition.getY()].getPiece();       //Get Basic Piece Moves
+            currentPiece = board.getField()[currentPiecePosition.getX()][currentPiecePosition.getY()].getPiece();       //Get Basic Piece Moves
             possibleMoves = currentPiece.getBasicPieceMoves(currentPiecePosition);
             for(List<Position> lines : possibleMoves){                  //Filter the Moves, if enemy Piece or own piece is in the way
             for(Position position : lines){
@@ -48,10 +48,10 @@ public class CheckMoveService extends AbstractRefreshingService{
                 int currentX = currentPiecePosition.getX();
                 int currentY = currentPiecePosition.getY();
 
-                Piece piece = board.getBoard()[positionX][positionY].getPiece();
+                Piece piece = board.getField()[positionX][positionY].getPiece();
 
                 if(piece != null){
-                    if(piece.getColour() != board.getBoard()[currentX][currentY].getPiece().getColour()){       //if enemy piece, you can capture
+                    if(piece.getColour() != board.getField()[currentX][currentY].getPiece().getColour()){       //if enemy piece, you can capture
                         list.add(position);
                     }
                     break;      // Line stops here (go next (chess)-line)
@@ -66,7 +66,7 @@ public class CheckMoveService extends AbstractRefreshingService{
 
         List<Position> list = new ArrayList<>();
 
-        Piece currentPiece = board.getBoard()[currentPiecePosition.getX()][currentPiecePosition.getY()].getPiece();
+        Piece currentPiece = board.getField()[currentPiecePosition.getX()][currentPiecePosition.getY()].getPiece();
 
         for(Position targetPosition : currentPiecePossibleMoves){
 
@@ -120,8 +120,8 @@ public class CheckMoveService extends AbstractRefreshingService{
         System.out.println(kingPosition);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if(board.getBoard()[i][j].getPiece() !=  null){
-                    enemyPiece = board.getBoard()[i][j].getPiece();
+                if(board.getField()[i][j].getPiece() !=  null){
+                    enemyPiece = board.getField()[i][j].getPiece();
 
                     if(enemyPiece.getColour() != kingColour){        // checks if enemy piece can "capture own king"
                         List<Position> currentPossiblePieceMoves = getBasicMoves(new Position(i, j));   //gets all moves from current enemyPiece
@@ -142,11 +142,11 @@ public class CheckMoveService extends AbstractRefreshingService{
         Piece piece;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if(board.getBoard()[i][j].getPiece() !=  null){
-                    piece = board.getBoard()[i][j].getPiece();
+                if(board.getField()[i][j].getPiece() !=  null){
+                    piece = board.getField()[i][j].getPiece();
 
                     if(piece.getColour() == colour && piece.getID() == 5){
-                        position = board.getBoard()[i][j].getPosition();
+                        position = board.getField()[i][j].getPosition();
                         return position;
                     }
                 }

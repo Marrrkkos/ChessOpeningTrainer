@@ -3,10 +3,12 @@ package chessopeningtrainer.entity.pieces;
 import chessopeningtrainer.entity.board.Position;
 import javafx.scene.image.Image;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Represents a Rook chess piece.
+ * Can move any number of squares vertically and horizontal.
+ */
 public class Rook extends Piece{
     boolean colour;
     boolean hasMoved;

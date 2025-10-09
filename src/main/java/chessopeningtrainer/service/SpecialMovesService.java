@@ -8,16 +8,20 @@ import chessopeningtrainer.entity.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this is the second filter from {@link CheckMoveService} and it gets you the more complex pawn logic
+ * with En Passant and castling-logic
+ */
 public class SpecialMovesService extends AbstractRefreshingService {
-    private RootService rootService;
+    private final RootService rootService;
 
-    public SpecialMovesService(RootService rootService) {
+    SpecialMovesService(RootService rootService) {
         this.rootService = rootService;
     }
 
-    public List<Position> checkForSpecialMoves(Position position, List<Position> moves) {
+    List<Position> checkForSpecialMoves(Position position, List<Position> moves) {
         Board board = rootService.currentGame.getBoard();
-        Piece currentPiece = board.getBoard()[position.getX()][position.getY()].getPiece();
+        Piece currentPiece = board.getField()[position.getX()][position.getY()].getPiece();
         if(currentPiece != null) {
             if (currentPiece.getID() == 0) {
                 moves = checkPawnMoves(position, currentPiece.getColour());
@@ -30,6 +34,7 @@ public class SpecialMovesService extends AbstractRefreshingService {
 
         return moves;
     }
+
     private List<Position> checkPawnMoves(Position currentPiecePosition, boolean colour) {
         Board board = rootService.currentGame.getBoard();
 
@@ -40,11 +45,11 @@ public class SpecialMovesService extends AbstractRefreshingService {
         int posX = currentPiecePosition.getX();
         int posY = currentPiecePosition.getY();
 
-            if (board.getBoard()[posX][posY + direction].getPiece() == null) {    // One forward
+            if (board.getField()[posX][posY + direction].getPiece() == null) {    // One forward
                 moves.add(new Position(posX, posY + direction));
             }
             if(posX+1 < 8) {
-                piece = board.getBoard()[posX + 1][posY + direction].getPiece();
+                piece = board.getField()[posX + 1][posY + direction].getPiece();
                 if (piece != null && piece.getColour() != colour) {               // capture right
                     moves.add(new Position(posX + 1, posY + direction));
                 }else if(checkEnPassant(currentPiecePosition, colour, 1)){
@@ -52,7 +57,7 @@ public class SpecialMovesService extends AbstractRefreshingService {
                 }
             }
             if(posX-1 >= 0) {
-                piece = board.getBoard()[posX - 1][posY + direction].getPiece();
+                piece = board.getField()[posX - 1][posY + direction].getPiece();
                 if (piece != null && piece.getColour() != colour) {        // capture left
                     moves.add(new Position(posX - 1, posY + direction));
                 }else if(checkEnPassant(currentPiecePosition, colour, -1)){
@@ -61,7 +66,7 @@ public class SpecialMovesService extends AbstractRefreshingService {
 
             }
             if((posY + 2 * direction) <= 7 && (posY + 2 * direction) >= 0) {
-                piece = board.getBoard()[posX][posY + 2 * direction].getPiece();
+                piece = board.getField()[posX][posY + 2 * direction].getPiece();
                 if (direction == 1 && posY == 1 && piece == null) {              //first pawn move can go 2 moves
                     moves.add(new Position(posX, posY + 2 * direction));
                 }
@@ -75,13 +80,6 @@ public class SpecialMovesService extends AbstractRefreshingService {
         return moves;
     }
 
-    /**
-     *
-     * @param currentPiecePosition
-     * @param colour
-     * @param captureDirection  1 = capture right, -1 = capture left
-     * @return
-     */
     private boolean checkEnPassant(Position currentPiecePosition, boolean colour, int captureDirection) {
         int posX = currentPiecePosition.getX();
         int posY = currentPiecePosition.getY();
@@ -110,21 +108,22 @@ public class SpecialMovesService extends AbstractRefreshingService {
         }
         return false;
     }
+
     private void checkCastle(Position currentPiecePosition, Piece currentPiece, List<Position> moves) {
         Board board = rootService.currentGame.getBoard();
         if(!currentPiece.getHasMoved()) {
             int posX = currentPiecePosition.getX();
             int posY = currentPiecePosition.getY();
 
-            Piece shortRook = board.getBoard()[posX + 3][posY].getPiece();        //short site castle
-            Piece longRook = board.getBoard()[posX - 4][posY].getPiece();         // long site castle
+            Piece shortRook = board.getField()[posX + 3][posY].getPiece();        //short site castle
+            Piece longRook = board.getField()[posX - 4][posY].getPiece();         // long site castle
 
-            if (board.getBoard()[posX + 1][posY].getPiece() == null && board.getBoard()[posX + 2][posY].getPiece() == null) {                //All places between rook and king must be empty
+            if (board.getField()[posX + 1][posY].getPiece() == null && board.getField()[posX + 2][posY].getPiece() == null) {                //All places between rook and king must be empty
                 if (shortRook != null && !shortRook.getHasMoved()) {        // Short Castle Rook and King no move
                     moves.add(new Position('c', posX + 2, posY));
                 }
             }
-            if (board.getBoard()[posX - 1][posY].getPiece() == null && board.getBoard()[posX - 2][posY].getPiece() == null && board.getBoard()[posX - 2][posY].getPiece() == null) {   //All places between rook and king must be empty
+            if (board.getField()[posX - 1][posY].getPiece() == null && board.getField()[posX - 2][posY].getPiece() == null && board.getField()[posX - 2][posY].getPiece() == null) {   //All places between rook and king must be empty
                 if (longRook != null && !longRook.getHasMoved()) {           // Long Castle Rook and King no move
                     moves.add(new Position('c', posX - 2, posY));
                 }
