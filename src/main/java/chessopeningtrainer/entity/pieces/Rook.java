@@ -48,4 +48,10 @@ public class Rook extends Piece{
     public boolean getColour() {
         return colour;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Rook other)) return false;
+        return this.getID() == other.getID() && this.getColour() == other.getColour() && this.getHasMoved() == other.getHasMoved();
+    }
 }

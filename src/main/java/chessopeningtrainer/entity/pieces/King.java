@@ -41,13 +41,6 @@ public class King extends Piece{
                 pos = new Position(posX + arr[j], posY + arr[i]);
                 if(isInBounds(pos)&& !(i==0 && j==0) ) {                // Make sure 0 0(own king position) is not in possible Moves
                     moves.add(pos);
-                    /*if(!hasMoved && arr[i]==0 && arr[j]==1){            // adds the possible castle-move to the line where the king moves right
-                        moves.add(new Position(posX + 2, posY));
-                    }
-                    if(!hasMoved && arr[i]==0 && arr[j]==-1){       // adds the possible castle-move to the line where the king moves left
-                        moves.add(new Position(posX - 2, posY));
-                    }*/
-
                     list.add(moves);
                     moves = new ArrayList<>();
                 }
@@ -71,5 +64,11 @@ public class King extends Piece{
     }
     public boolean getColour() {
         return colour;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof King other)) return false;
+        return this.getID() == other.getID() && this.getColour() == other.getColour() && this.getHasMoved() == other.getHasMoved();
     }
 }

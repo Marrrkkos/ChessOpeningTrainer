@@ -17,14 +17,10 @@ public class GameService extends AbstractRefreshingService{
 
     public GameService(RootService rootService) {
         this.rootService = rootService;
-
     }
     public void startGame() {
         initializeGame();
         Board board = rootService.currentGame.getBoard();
-        if(board == null){
-            System.out.println("Board is null");
-        }
         for (Refreshable r : refreshables) {
             r.refreshAfterGameStart(board);
         }
@@ -61,10 +57,10 @@ public class GameService extends AbstractRefreshingService{
         board.getBoard()[4][7].setPiece(new King(true, false));
 
         for (int i = 0; i < 8; i++) {  // Pawns
-            board.getBoard()[i][1].setPiece(new Pawn(false, false));
+            board.getBoard()[i][1].setPiece(new Pawn(false));
         }
         for (int i = 0; i < 8; i++) {
-            board.getBoard()[i][6].setPiece(new Pawn(true, false));
+            board.getBoard()[i][6].setPiece(new Pawn(true));
         }
     }
     private void initializeFields(Board board){

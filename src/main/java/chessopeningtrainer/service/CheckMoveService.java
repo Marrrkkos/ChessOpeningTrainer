@@ -13,19 +13,22 @@ public class CheckMoveService extends AbstractRefreshingService{
     public CheckMoveService(RootService rootService) {
         this.rootService = rootService;
     }
+
     public List<Position> getFinalPossibleMoves(Position currentPiecePosition){
+
         Board board = rootService.currentGame.getBoard();
+
         if(board.getBoard()[currentPiecePosition.getX()][currentPiecePosition.getY()].getPiece() == null) {     // no piece at this position
             return new ArrayList<>();
         }
         List<Position> moves = getBasicMoves(currentPiecePosition);    // Filter by enemy/or own Pieces in the Way
-        moves = rootService.specialMovesService.checkForSpecialMoves(currentPiecePosition, moves);      //Filter by En-Pasant, Pawn Moves, Castle
+        moves = rootService.specialMovesService.checkForSpecialMoves(currentPiecePosition, moves);      //Filter by En-Passant, Pawn Moves, Castle
         return checkForChecks(currentPiecePosition, moves);         // Filter checks to get final possible Moves
 
     }
 
     /**
-     * gets you the basic piece moves, filtered from own, or enemy pieces. but it is not filtered from checks
+     * gets you the basic piece moves, filtered from own, or enemy pieces in the way. but it is not filtered from checks.
      * @param currentPiecePosition  the position of the piece you want the possible moves for
      * @return  list of possible moves you can play, not filtered from checks
      */
@@ -73,7 +76,7 @@ public class CheckMoveService extends AbstractRefreshingService{
                 list.add(targetPosition);
             }
 
-            rootService.moveService.undoMove(targetPosition);
+            rootService.moveService.undoMove();
         }
 
         if(currentPiece.getID() == 5 && !list.isEmpty()){

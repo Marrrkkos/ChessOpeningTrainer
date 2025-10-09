@@ -93,13 +93,19 @@ public class SpecialMovesService extends AbstractRefreshingService {
         ArrayList<Turn> gameTurns = rootService.currentGame.getTurns();
         if(!gameTurns.isEmpty()) {
             Turn turner = gameTurns.getLast();
-            if (colour && posY == 3) {   // White and on 5th rank
-                if (turner.getStartPos().equals(enPassantStartPos1) && turner.getTargetPos().equals(enPassantEndPos1)) {
-                    return true;
-                }
+            if(turner.getMovedPiece()==null){
+                return false;
             }
-            if (!colour && posY == 4) {  // Black and on 4th rank
-                return turner.getStartPos().equals(enPassantStartPos1) && turner.getTargetPos().equals(enPassantEndPos1);
+            if(turner.getMovedPiece().getID() == 0) {
+
+                if (colour && posY == 3) {   // White and on 5th rank
+                    if (turner.getStartPos().equals(enPassantStartPos1) && turner.getTargetPos().equals(enPassantEndPos1)) {
+                        return true;
+                    }
+                }
+                if (!colour && posY == 4) {  // Black and on 4th rank
+                    return turner.getStartPos().equals(enPassantStartPos1) && turner.getTargetPos().equals(enPassantEndPos1);
+                }
             }
         }
         return false;

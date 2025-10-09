@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Game {
     ArrayList<Turn> turns;
-    Player[] player;
+    Player[] players;
     ArrayList<Turn> currentTurnsSave;
     int turnCounter;
     private Board board;
@@ -20,9 +20,9 @@ public class Game {
      * @param currentTurnsSave  This is for Forward/Backward functions, to make life easier for the user. Only
      *                          changes to turns, when new Move out of the current Line is done
      */
-    public Game(ArrayList<Turn> turns, ArrayList<Turn> currentTurnsSave, Player[] player) {
+    public Game(ArrayList<Turn> turns, ArrayList<Turn> currentTurnsSave, Player[] players) {
         this.turns = turns;
-        this.player = player;
+        this.players = players;
         this.currentTurnsSave = currentTurnsSave;
         this.turnCounter = 0;
         this.board = new Board();
@@ -42,14 +42,13 @@ public class Game {
     }
 
     public Player[] getPlayer() {
-        return player;
+        return players;
     }
     public int getCurrentPlayer() {
         return currentPlayer;
     }
     public void nextPlayer() {
-        System.out.println(currentPlayer);
-        this.currentPlayer = (1 + currentPlayer) % 2;
+        this.currentPlayer = (1 + currentPlayer) % players.length;
     }
     public ArrayList<Turn> getCurrentTurnsSave() {
         return currentTurnsSave;
@@ -60,7 +59,7 @@ public class Game {
     }
 
     public void setPlayer(Player[] player) {
-        this.player = player;
+        this.players = player;
     }
 
     public void setCurrentTurnsSave(ArrayList<Turn> currentTurnsSave) {

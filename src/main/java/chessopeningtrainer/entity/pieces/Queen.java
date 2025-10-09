@@ -17,11 +17,7 @@ public class Queen extends Piece{
     Image BQueen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pieces/b-queen.png")));
     @Override
     public Image getImage(){
-        if (this.colour) {
-            return WQueen;
-        }else{
-            return BQueen;
-        }
+        return colour ? WQueen : BQueen;
 
     }
 
@@ -47,5 +43,11 @@ public class Queen extends Piece{
     }
     public boolean getColour() {
         return colour;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Queen other)) return false;
+        return this.getID() == other.getID() && this.getColour() == other.getColour();
     }
 }

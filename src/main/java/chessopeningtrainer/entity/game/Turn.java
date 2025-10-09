@@ -9,12 +9,14 @@ public class Turn {
     int moveID;
     Piece capturedPiece;
     char rule;
-    public Turn(int moveID, Position startPos, Position targetPos, Piece capturedPiece, char rule) {
+    Piece movedPiece;
+    public Turn(int moveID, Position startPos, Position targetPos,Piece movedPiece, Piece capturedPiece, char rule) {
         this.startPos = new Position(startPos.getX(), startPos.getY());
         this.targetPos = new Position(targetPos.getX(), targetPos.getY());
         this.moveID = moveID;
         this.capturedPiece = capturedPiece;
         this.rule = rule;
+        this.movedPiece = movedPiece;
     }
 
     public Position getTargetPos() {
@@ -24,7 +26,9 @@ public class Turn {
     public Position getStartPos() {
         return startPos;
     }
-
+    public Piece getMovedPiece() {
+        return movedPiece;
+    }
     public Piece getCapturedPiece() {
         return capturedPiece;
     }

@@ -40,7 +40,7 @@ public class MoveService extends AbstractRefreshingService{
      * @param position1
      * @param position2
      * @param moves
-     * @param simulation    if this method is used with game update, simulation is false
+     * @param simulation    if this method is used with gui update, simulation is false: simulation is used in checkForChecks
      */
     public void doMove(Position position1, Position position2, List<Position> moves, boolean simulation) {
         Game game = rootService.currentGame;
@@ -59,7 +59,7 @@ public class MoveService extends AbstractRefreshingService{
                         board.getBoard()[position1.getX()][position1.getY()].setPiece(null);
                         board.getBoard()[position2.getX()][position1.getY()].setPiece(null);        // In between Pos 1 and pos2 (the piece right next to pos1) = null: EnPassant
 
-                        game.getTurns().add(new Turn(0, position1, position2, capturedPiece, 'e'));
+                        game.getTurns().add(new Turn(0, position1, position2,piece, capturedPiece, 'e'));
                         if (!simulation) {
                             for (Refreshable r : refreshables) {
                                 r.refreshAfterEnPassant(position1, position2, piece, board);
@@ -81,7 +81,7 @@ public class MoveService extends AbstractRefreshingService{
                             board.getBoard()[position2.getX() + 1][position2.getY()].setPiece(rook);
                             board.getBoard()[position2.getX() - 2][position2.getY()].setPiece(null);
                         }
-                        game.getTurns().add(new Turn(0, position1, position2, capturedPiece, 'c'));
+                        game.getTurns().add(new Turn(0, position1, position2,piece, capturedPiece, 'c'));
                         if (!simulation) {
                             for (Refreshable r : refreshables) {
                                 r.refreshAfterCastle(position1, position2, piece, rook, board);
@@ -91,7 +91,7 @@ public class MoveService extends AbstractRefreshingService{
                     } else {
                         board.getBoard()[position2.getX()][position2.getY()].setPiece(piece);       // Normal Move
                         board.getBoard()[position1.getX()][position1.getY()].setPiece(null);
-                        game.getTurns().add(new Turn(0, position1, position2, capturedPiece, 'n'));
+                        game.getTurns().add(new Turn(0, position1, position2,piece, capturedPiece, 'n'));
                         if (!simulation) {
                             for (Refreshable r : refreshables) {
                                 r.refreshAfterNormalMove(position1, position2, piece);
@@ -107,18 +107,20 @@ public class MoveService extends AbstractRefreshingService{
             }
         }
     }
-    public void undoMove(Position movedPiecePos) {
+    public void undoMove() {
         Game game = rootService.currentGame;
         Board board = game.getBoard();
-        Piece movedPiece = board.getBoard()[movedPiecePos.getX()][movedPiecePos.getY()].getPiece();
+
         Turn lastTurn = game.getTurns().getLast();
         Piece capturedPiece = lastTurn.getCapturedPiece();
+
+        Piece movedPiece = lastTurn.getMovedPiece();
 
         int startPosX = lastTurn.getStartPos().getX();   // last Move starting Position
         int startPosY = lastTurn.getStartPos().getY();
 
-        int endPosX = movedPiecePos.getX();   // last Move end Postion
-        int endPosY = movedPiecePos.getY();
+        int endPosX = lastTurn.getTargetPos().getX();
+        int endPosY = lastTurn.getTargetPos().getY();
 
         if(lastTurn.getRule() == 'e'){         // En Passant
             board.getBoard()[endPosX][endPosY].setPiece(null);
@@ -149,25 +151,35 @@ public class MoveService extends AbstractRefreshingService{
         }
         game.getTurns().removeLast();
     }
-    public void doPromotion(Position position1, Position position2, Button[][] buttonArray, Position clickedPosition){
+
+    /**
+     *
+     * @param startPos
+     * @param endPos
+     * @param buttonArray
+     * @param clickedPosition  .getY(): For white 7:Queen, 6:Rook, 5:Bishop, 4:Knight, for black 1:Queen...
+     */
+    public void doPromotion(Position startPos, Position endPos, Button[][] buttonArray, Position clickedPosition){
         Game game = rootService.currentGame;
         Board board = game.getBoard();
 
         char p;
-        boolean colour = board.getBoard()[position1.getX()][position1.getY()].getPiece().getColour();
+        Piece currentPiece =  board.getBoard()[startPos.getX()][startPos.getY()].getPiece();
+        boolean colour = currentPiece.getColour();
+
         int direction = colour ? 1 : -1;
         Piece promotionPiece;
 
-        if(position2.equals(clickedPosition)){
+        if(endPos.equals(clickedPosition)){
             promotionPiece = new Queen(colour);
             p = 'Q';
-        }else if(position2.getX() == clickedPosition.getX() && position2.getY()+direction == clickedPosition.getY()){
+        }else if(endPos.getX() == clickedPosition.getX() && endPos.getY()+direction == clickedPosition.getY()){
             promotionPiece = new Rook(colour, true);
             p = 'R';
-        }else if(position2.getX() == clickedPosition.getX() && position2.getY()+2*direction == clickedPosition.getY()){
+        }else if(endPos.getX() == clickedPosition.getX() && endPos.getY()+2*direction == clickedPosition.getY()){
             promotionPiece = new Bishop(colour);;
             p = 'B';
-        }else if(position2.getX() == clickedPosition.getX() && position2.getY()+3*direction == clickedPosition.getY()){
+        }else if(endPos.getX() == clickedPosition.getX() && endPos.getY()+3*direction == clickedPosition.getY()){
             promotionPiece = new Knight(colour);
             p = 'K';
         }else{
@@ -175,14 +187,14 @@ public class MoveService extends AbstractRefreshingService{
             p = 'X';    // Never used
         }
         if(promotionPiece != null){
-            Piece capturedPiece = board.getBoard()[position2.getX()][position2.getY()].getPiece();
-            board.getBoard()[position2.getX()][position2.getY()].setPiece(promotionPiece);       // Normal Move
-            board.getBoard()[position1.getX()][position1.getY()].setPiece(null);
-            game.getTurns().add(new Turn(0, position1, position2, capturedPiece, p));
+            Piece capturedPiece = board.getBoard()[endPos.getX()][endPos.getY()].getPiece();
+            board.getBoard()[endPos.getX()][endPos.getY()].setPiece(promotionPiece);       // Normal Move
+            board.getBoard()[startPos.getX()][startPos.getY()].setPiece(null);
+            game.getTurns().add(new Turn(0, startPos, endPos,currentPiece, capturedPiece, p));
         }
         boolean legal = p != 'X';
         for (Refreshable r : refreshables) {
-            r.refreshAfterPromotion(position1, position2, buttonArray, colour, board, legal);
+            r.refreshAfterPromotion(startPos, endPos, buttonArray, colour, board, legal);
         }
         rootService.currentGame.nextPlayer();
     }
@@ -190,8 +202,7 @@ public class MoveService extends AbstractRefreshingService{
         Game game = rootService.currentGame;
         Board board = game.getBoard();
 
-        Field field =  board.getBoard()[position1.getX()][position1.getY()];
-        Piece piece = field.getPiece();
+        Piece piece = board.getBoard()[position1.getX()][position1.getY()].getPiece();
         if(piece == null || !list.contains(position2)){
             return false;
         }

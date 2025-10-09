@@ -40,14 +40,14 @@ public class Knight extends Piece{
                 pos = new Position(posX + arr2[j], posY + arr[i]);
                 if(isInBounds(pos)) {
                     moves.add(pos);
+                    list.add(moves);
                 }
-                list.add(moves);
                 moves = new ArrayList<>();
                 pos = new Position(posX + arr[j], posY + arr2[i]);
                 if(isInBounds(pos)) {
                     moves.add(pos);
+                    list.add(moves);
                 }
-                list.add(moves);
                 moves = new ArrayList<>();
             }
         }
@@ -69,5 +69,11 @@ public class Knight extends Piece{
     }
     public boolean getColour() {
         return colour;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Knight other)) return false;
+        return this.getID() == other.getID() && this.getColour() == other.getColour();
     }
 }
