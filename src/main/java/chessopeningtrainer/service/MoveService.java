@@ -57,7 +57,6 @@ public class MoveService extends AbstractRefreshingService{
         Board board = game.getBoard();
         Piece piece = board.getField()[position1.getX()][position1.getY()].getPiece();
         if (!position1.equals(position2)) {
-            System.out.println("test");
 
             Piece capturedPiece = board.getField()[position2.getX()][position2.getY()].getPiece();
             for (Position p : moves) {
@@ -73,7 +72,6 @@ public class MoveService extends AbstractRefreshingService{
                         if (!simulation) {
                             for (Refreshable r : refreshables) {
                                 r.refreshAfterEnPassant(position1, position2, piece, board);
-                                r.refreshAfterGameStart(board);
                             }
                         }
                     } else if (p.getChar() == 'c') {           // Castle
@@ -95,7 +93,6 @@ public class MoveService extends AbstractRefreshingService{
                         if (!simulation) {
                             for (Refreshable r : refreshables) {
                                 r.refreshAfterCastle(position1, position2, piece, rook, board);
-                                r.refreshAfterGameStart(board);
                             }
                         }
                     } else {
@@ -105,16 +102,19 @@ public class MoveService extends AbstractRefreshingService{
                         if (!simulation) {
                             for (Refreshable r : refreshables) {
                                 r.refreshAfterNormalMove(position1, position2, piece);
-                                r.refreshAfterGameStart(board);
                             }
                         }
                     }
                     if(!simulation) {       // only set pieceHasMoves when its in real game
                         piece.setHasMoved(true);
                         rootService.currentGame.nextPlayer();
+
                     }
                 }
             }
+        }
+        for (Refreshable r : refreshables) {
+            r.refreshAfterMoveFinished();
         }
     }
 

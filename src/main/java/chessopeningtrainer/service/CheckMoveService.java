@@ -117,7 +117,7 @@ public class CheckMoveService extends AbstractRefreshingService{
         Piece enemyPiece;
 
         Position kingPosition = findKing(kingColour);
-        System.out.println(kingPosition);
+
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if(board.getField()[i][j].getPiece() !=  null){

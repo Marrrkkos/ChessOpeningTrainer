@@ -11,7 +11,10 @@ import java.util.List;
  * Interface for UI components that react to game state updates.
  */
 public interface Refreshable {
-
+    /**
+     * Called to remove possiblePoints on a chess Board
+     */
+    default void refreshAfterMoveFinished(){}
     /**
      * Called after a new game starts.
      * @param board the current game board
@@ -66,7 +69,7 @@ public interface Refreshable {
     default void refreshAfterPromotion(Position position1, Position position2, Button[][] buttonArray, boolean colour, Board board, boolean legal) {}
 
     /**
-     * Called when possible moves are displayed.
+     * Called when possible moves are displayed with circles
      * @param possibleMoves list of possible move positions
      */
     default void refreshAfterShowPossibleMoves(List<Position> possibleMoves) {}
